@@ -1,0 +1,27 @@
+{
+  "name": "dkb-scraper",
+  "version": "1.0.0",
+  "description": "Scrape dkb banking balances",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start_offline": "serverless offline start --port 6060 --noTimeout",
+    "create_domain": "serverless create_domain",
+    "deploy_dev": "serverless deploy -s dev --aws-profile $AWS_PROFILE --region $AWS_REGION",
+    "deploy_prod": "serverless deploy -s production --aws-profile $AWS_PROFILE --region $AWS_REGION"
+  },
+  "keywords": [],
+  "author": "jroehl <mail@johannroehl.de>",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7"
+  },
+  "devDependencies": {
+    "serverless": "^1.49.0",
+    "serverless-domain-manager": "^3.3.0",
+    "serverless-offline": "^5.10.1",
+    "serverless-plugin-aws-alerts": "^1.4.0"
+  }
+}

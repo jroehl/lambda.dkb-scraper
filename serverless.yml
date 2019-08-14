@@ -1,0 +1,47 @@
+# Happy Coding!
+
+service: dkb-scraper
+
+plugins:
+  - serverless-plugin-aws-alerts
+  - serverless-domain-manager
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  timeout: 60
+  stage: dev # you can override this via the CLI argument
+  apiKeys:
+    - ${self:service}-key-${self:custom.stage}
+  usagePlan:
+    quota:
+      limit: 2000
+      period: MONTH
+    throttle:
+      burstLimit: 10
+      rateLimit: 5
+  environment: # Service wide environment variables
+    STAGE: ${self:custom.stage}
+    DKB_USER: ${env:DKB_USER}
+    DKB_PASSWORD: ${env:DKB_PASSWORD}
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  domains:
+    production: lapi.johannroehl.de
+    dev: dev-lapi.johannroehl.de
+  customDomain:
+    basePath: ${self:service}
+    domainName: ${self:custom.domains.${self:custom.stage}}
+    stage: ${self:custom.stage}
+    createRoute53Record: false
+
+functions:
+  balances:
+    handler: handler.balances
+    events:
+      - http:
+          private: true
+          path: /balances
+          method: get
