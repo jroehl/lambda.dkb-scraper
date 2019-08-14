@@ -2,7 +2,7 @@
 const { login, logout } = require('./dkb-request');
 const { getBalances } = require('./scraper');
 
-const response = statusCode => ({
+const response = (statusCode, body) => ({
   statusCode,
   body: JSON.stringify(body, null, 2),
 });
